@@ -29,9 +29,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.br.CPF;
 
 /**
  *
@@ -80,6 +82,10 @@ public class Cliente implements Serializable {
     @NotBlank
     @Column(name = "TXT_NOME", length = 255)
     private String nome;
+    @NotNull
+    @CPF
+    @Column(name = "TXT_CPF")
+    private String cpf;
     @NotBlank
     @Email(message = "{idrink.Cliente.email}")
     @Column(name = "TXT_EMAIL")
@@ -121,6 +127,14 @@ public class Cliente implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public String getEmail() {
@@ -223,6 +237,8 @@ public class Cliente implements Serializable {
         sb.append(this.id);
         sb.append("\n Nome:");
         sb.append(this.nome);
+        sb.append("\n CPF:");
+        sb.append(this.cpf);
         sb.append("\n Telefone:");
         sb.append(this.telefone);
         sb.append("\n Login:");
@@ -231,7 +247,6 @@ public class Cliente implements Serializable {
         if (this.cartao != null) {
             sb.append(this.cartao.toString());
             sb.append("\n ");
-
         }
         sb.append(this.endereco.toString());
         sb.append("\n");
