@@ -7,7 +7,6 @@ package idrink.idrink.entidades;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -40,13 +39,14 @@ import javax.validation.constraints.NotNull;
 @NamedQueries(
         {
             @NamedQuery(
-                    name = "ItemDeBebida",
+                    name = Pedido.BEBIDA_DE_PEDIDO,
                     query = "SELECT i.id, i.quantidade, b.id, b.nome, FROM Pedido p, p.itensSelecionados i, Bebida b WHERE b.id = i.bebida.id AND b.id = ?1"
             )
         }
 )
 public class Pedido implements Serializable {
 
+    public static final String BEBIDA_DE_PEDIDO = "BebidaDePedido";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
