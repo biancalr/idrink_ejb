@@ -21,7 +21,6 @@ import static javax.persistence.PersistenceContextType.TRANSACTION;
 import javax.persistence.TypedQuery;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
 
 /**
@@ -81,11 +80,13 @@ public class ClienteServico <T extends Cliente>{
     }
     
     @TransactionAttribute(SUPPORTS)
-    protected T consultarPorCPF(@CPF String cpf) {
-        TypedQuery<T> query = 
-                entityManager.createNamedQuery(Cliente.CLIENTE_POR_CPF, classe);
+    protected T consultarEntidade(Object[] parametros, String nomeQuery) {
+        TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, classe);
 
-        query.setParameter(1, cpf);
+        int i = 1;
+        for (Object parametro : parametros) {
+            query.setParameter(i++, parametro);
+        }
 
         return query.getSingleResult();
     }
