@@ -10,7 +10,6 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import static javax.ejb.TransactionAttributeType.NOT_SUPPORTED;
 import static javax.ejb.TransactionAttributeType.REQUIRED;
 import static javax.ejb.TransactionAttributeType.SUPPORTS;
@@ -39,6 +38,7 @@ public class ClienteServico <T extends Cliente>{
     @PersistenceContext(name = "idrink_ejb", type = TRANSACTION)
     protected EntityManager entityManager;
     protected Class<T> classe;
+    
     
     @TransactionAttribute(NOT_SUPPORTED)
     protected void setClasse(@NotNull Class<T> classe){
