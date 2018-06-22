@@ -22,6 +22,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -35,6 +37,14 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "TB_PEDIDO")
+@NamedQueries(
+        {
+            @NamedQuery(
+                    name = "ItemDeBebida",
+                    query = "SELECT i.id, i.quantidade, b.id, b.nome, FROM Pedido p, p.itensSelecionados i, Bebida b WHERE b.id = i.bebida.id AND b.id = ?1"
+            )
+        }
+)
 public class Pedido implements Serializable {
 
     @Id
