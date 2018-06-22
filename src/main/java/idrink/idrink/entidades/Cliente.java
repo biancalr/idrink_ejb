@@ -49,7 +49,7 @@ import org.hibernate.validator.constraints.br.CPF;
             ),
             @NamedQuery(
                     name = Cliente.CLIENTE_POR_CARTAO,
-                    query = "SELECT c FROM Cliente c WHERE c.cartao IS NOT NULL AND c.cartao.bandeira = ?1"
+                    query = "SELECT c FROM Cliente c WHERE c.cartao IS NOT NULL AND c.cartao.bandeira = ?1 ORDER BY c.id"
             )
         }
 )
