@@ -90,11 +90,33 @@ public class ClienteServico <T extends Cliente>{
         return query.getSingleResult();
     }
     
+    @TransactionAttribute(SUPPORTS)
+    protected List<T> consultarNomesClientes(){
+          return consultarEntidades(new Object[0], Cliente.CLIENTE_POR_CARTAO);
+
+    }
+    
+    @TransactionAttribute(SUPPORTS)
     protected List<T> consultarClientesPorCartao(@NotBlank String bandeira){
-        TypedQuery<T> query =
-                entityManager.createNamedQuery(Cliente.CLIENTE_POR_CARTAO, classe);
-        
-        query.setParameter(1, bandeira);
+          return consultarEntidades(new Object[] {bandeira}, Cliente.CLIENTE_POR_CARTAO);
+
+    }
+    
+    @TransactionAttribute(SUPPORTS)
+    protected List<T> consultarPedidoPorClientes(@NotBlank String nomeCLiente){
+          return consultarEntidades(new Object[] {nomeCLiente}, Cliente.PEDIDO_POR_CLIENTE);
+
+    }
+    
+    @TransactionAttribute(SUPPORTS)
+    protected List<T> consultarEntidades(Object[] parametros, String nomeQuery) {
+        TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, classe);
+
+        int i = 1;
+        for (Object parametro : parametros) {
+            query.setParameter(i++, parametro);
+        }
+
         return query.getResultList();
     }
     
