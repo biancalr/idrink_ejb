@@ -44,8 +44,12 @@ import org.hibernate.validator.constraints.br.CPF;
 @NamedQueries(
         {
             @NamedQuery(
-                    name = Cliente.CLIENTE_POR_ID,
-                    query = "SELECT c.id, c.nome FROM Cliente c WHERE c.id = ?1"
+                    name = Cliente.CLIENTE_POR_CPF,
+                    query = "SELECT c FROM Cliente c WHERE c.cpf = ?1"
+            ),
+            @NamedQuery(
+                    name = "CompradorPorCartao",
+                    query = "SELECT c FROM Cliente c WHERE c.cartao IS NOT NULL AND c.cartao.bandeira = ?1"
             )
         }
 )
@@ -72,7 +76,8 @@ import org.hibernate.validator.constraints.br.CPF;
 )
 public class Cliente implements Serializable {
     
-    public static final String CLIENTE_POR_ID = "ClientePorId";
+    public static final String CLIENTE_POR_CPF = "ClientePorCartao";
+    public static final String CLIENTE_POR_CARTAO = "ClientePorCPF";
     public static final String NOMES_CLIENTES_SQL = "Nomes_Clientes";
     public static final String PEDIDO_POR_CLIENTE = "Cliente.QuantidadePedidosSQL";
 
