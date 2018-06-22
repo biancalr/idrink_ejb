@@ -91,24 +91,6 @@ public class ClienteServico <T extends Cliente>{
     }
     
     @TransactionAttribute(SUPPORTS)
-    protected List<T> consultarNomesClientes(){
-          return consultarEntidades(new Object[0], Cliente.CLIENTE_POR_CARTAO);
-
-    }
-    
-    @TransactionAttribute(SUPPORTS)
-    protected List<T> consultarClientesPorCartao(@NotBlank String bandeira){
-          return consultarEntidades(new Object[] {bandeira}, Cliente.CLIENTE_POR_CARTAO);
-
-    }
-    
-    @TransactionAttribute(SUPPORTS)
-    protected List<T> consultarPedidoPorClientes(@NotBlank String nomeCLiente){
-          return consultarEntidades(new Object[] {nomeCLiente}, Cliente.PEDIDO_POR_CLIENTE);
-
-    }
-    
-    @TransactionAttribute(SUPPORTS)
     protected List<T> consultarEntidades(Object[] parametros, String nomeQuery) {
         TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, classe);
 
