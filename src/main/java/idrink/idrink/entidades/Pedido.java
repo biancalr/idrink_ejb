@@ -47,8 +47,8 @@ import javax.validation.constraints.NotNull;
                     query = "SELECT c FROM Pedido p, Cliente c WHERE c.id = p.cliente.id AND p.id = ?1"
             ),
             @NamedQuery(
-                    name = Pedido.PEDIDO_CEP_ENTREGA,
-                    query = "SELECT c.nome, p, e FROM Cliente c, c.endereco e, Pedido p WHERE c.pedidos.id = p.id AND e.cep = ?1"
+                    name = Pedido.PEDIDO_QUANTIDADE_ITENS,
+                    query = "Select p.id, COUNT(i.id) FROM Pedido p, p.itensSelecionados i WHERE p.id = ?1 ORDER BY i.id"
             )
         }
 )
@@ -56,7 +56,7 @@ public class Pedido implements Serializable {
 
     public static final String BEBIDA_DE_PEDIDO = "BebidaDePedido";    
     public static final String PEDIDO_DONO = "PedidoDono";    
-    public static final String PEDIDO_CEP_ENTREGA = "CEPEntregaDoPedido";    
+    public static final String PEDIDO_QUANTIDADE_ITENS = "CEPEntregaDoPedido";    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
