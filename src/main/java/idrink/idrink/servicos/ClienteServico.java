@@ -22,6 +22,7 @@ import javax.persistence.TypedQuery;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.br.CPF;
 
 /**
  *
@@ -87,6 +88,16 @@ public class ClienteServico <T extends Cliente>{
     @TransactionAttribute(SUPPORTS)
     public List<Cliente> consultarClientes(@NotBlank String bandeiraCartao) {
         return (List<Cliente>) consultarEntidades(new Object[] {bandeiraCartao}, Cliente.CLIENTE_POR_CARTAO);
+    }
+    
+    @TransactionAttribute(SUPPORTS)
+    public T consultarPorCPF(@CPF String cpf){
+        return consultarEntidade(new Object[] {cpf}, Cliente.CLIENTE_POR_CPF);
+    }
+    
+    @TransactionAttribute(SUPPORTS)
+    public T consultarQuantidadePedidos(@NotBlank String nomeCliente){
+        return consultarEntidade(new Object[] {nomeCliente}, Cliente.PEDIDO_POR_CLIENTE);
     }
     
     @TransactionAttribute(SUPPORTS)
