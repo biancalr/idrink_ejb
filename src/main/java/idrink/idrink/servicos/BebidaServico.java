@@ -5,8 +5,7 @@
  */
 package idrink.idrink.servicos;
 
-import idrink.idrink.entidades.Pedido;
-import java.util.Date;
+import idrink.idrink.entidades.Bebida;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -28,66 +27,62 @@ import javax.validation.constraints.NotNull;
  * @author bianca
  * @param <T>
  */
-@Stateless(name = "ejb/PedidoServico")
+@Stateless
 @LocalBean
 @TransactionManagement(CONTAINER)
 @TransactionAttribute(REQUIRED)
-public class PedidoServico<T extends Pedido> {
-
+public class BebidaServico <T extends Bebida>{
+    
     @PersistenceContext(name = "idrink_ejb", type = TRANSACTION)
     protected EntityManager entityManager;
     protected Class<T> classe;
-
+    
     @TransactionAttribute(NOT_SUPPORTED)
     protected void setClasse(@NotNull Class<T> classe) {
         this.classe = classe;
     }
-
+    
     @TransactionAttribute(SUPPORTS)
-    public boolean existe(@NotNull T pedido) {
+    public boolean existe(@NotNull T bebida) {
         TypedQuery query
-                = entityManager.createNamedQuery(Pedido.PEDIDO_POR_ID, classe);
-        query.setParameter(1, pedido.getId());
+                = entityManager.createNamedQuery(
+                        "SELECT b FROM Bebida b WHERE id = ?1", classe);
+        query.setParameter(1, bebida.getId());
         return !query.getResultList().isEmpty();
     }
-
+    
     @TransactionAttribute(SUPPORTS)
-    public Pedido criar() {
-        return new Pedido();
+    public Bebida criar() {
+        return new Bebida();
     }
 
-    public void persistir(@Valid T pedido) {
-        if (!existe(pedido)) {
-            entityManager.persist(pedido);
+    public void persistir(@Valid T bebida) {
+        if (!existe(bebida)) {
+            entityManager.persist(bebida);
             entityManager.flush();
         }
     }
-
-    public void atualizar(@Valid T pedido) {
-        if (existe(pedido)) {
-            entityManager.merge(pedido);
+    
+    public void atualizar(@Valid T bebida) {
+        if (existe(bebida)) {
+            entityManager.merge(bebida);
             entityManager.flush();
         }
     }
-
-    public void excluir(@Valid T pedido) {
-        if (existe(pedido)) {
-            T emp = entityManager.merge(pedido);
-            entityManager.remove(emp);
+    
+    public void excluir(@Valid T bebida) {
+        if (existe(bebida)) {
+            T emb = entityManager.merge(bebida);
+            entityManager.remove(emb);
             entityManager.flush();
         }
     }
-
+    
     @TransactionAttribute(SUPPORTS)
     public T consultarPorId(@NotNull Long id) {
         return entityManager.find(classe, id);
     }
-
-    @TransactionAttribute(SUPPORTS)
-    public List<Pedido> consultarPedidosPorData(@NotNull Date data) {
-        return (List<Pedido>) consultarEntidade(new Object[]{data}, Pedido.PEDIDO_POR_DATA);
-    }
-
+    
     @TransactionAttribute(SUPPORTS)
     public T consultarEntidade(Object[] parametros, String nomeQuery) {
         TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, classe);
@@ -111,5 +106,5 @@ public class PedidoServico<T extends Pedido> {
 
         return query.getResultList();
     }
-
+    
 }

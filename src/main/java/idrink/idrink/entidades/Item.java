@@ -15,6 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
@@ -26,8 +28,22 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "TB_ITEM_SELECIONADO")
+@NamedQueries(
+        {
+            @NamedQuery(
+                    name = Item.ITEM_POR_ID,
+                    query = "SELECT i FROM Item i WHERE i.id = ?1"
+            ),
+            @NamedQuery(
+                    name = Item.BEBIDA_DO_ITEM,
+                    query = "SELECT i.bebida.id FROM Item i WHERE i.id = ?1"
+            )
+        }
+)
 public class Item implements Serializable{
     
+    public static final String ITEM_POR_ID = "ItemPorId";    
+    public static final String BEBIDA_DO_ITEM = "BebidaDoItem";    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

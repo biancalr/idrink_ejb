@@ -21,6 +21,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -43,20 +45,25 @@ import javax.validation.constraints.NotNull;
                     query = "SELECT p FROM Pedido p WHERE p.id = ?1"
             ),
             @NamedQuery(
-                    name = Pedido.PEDIDO_DONO,
-                    query = "SELECT c FROM Pedido p, Cliente c WHERE c.id = p.cliente.id AND p.id = ?1"
-            ),
-            @NamedQuery(
+                    name = Pedido.PEDIDO_POR_DATA,
+                    query = "SELECT p FROM Pedido p WHERE p.dataPedido = ?1 ORDER BY p.id"
+            )
+        }
+)
+@NamedNativeQueries(
+        {
+            @NamedNativeQuery(
                     name = Pedido.PEDIDO_QUANTIDADE_ITENS,
-                    query = "Select p.id, COUNT(i.id) FROM Pedido p, p.itensSelecionados i WHERE p.id = ?1 ORDER BY i.id"
+                    query = "SELECT COUNT(i.ID) FROM TB_PEDIDO p, TB_ITENS_SELECIONADOS i WHERE p.id = ?1 AND p.ID = i.ID_PEDIDO ORDER BY i.ID",
+                    resultClass = Long.class
             )
         }
 )
 public class Pedido implements Serializable {
 
-    public static final String PEDIDO_POR_ID = "BebidaDePedido";    
-    public static final String PEDIDO_DONO = "PedidoDono";    
-    public static final String PEDIDO_QUANTIDADE_ITENS = "CEPEntregaDoPedido";    
+    public static final String PEDIDO_POR_DATA = "PedidoPorData";    
+    public static final String PEDIDO_POR_ID = "PedidoPorId";  
+    public static final String PEDIDO_QUANTIDADE_ITENS = "Pedido.QuantidadeItens";    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -93,6 +100,10 @@ public class Pedido implements Serializable {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Date getDataPedido() {
