@@ -39,8 +39,8 @@ import javax.validation.constraints.NotNull;
 @NamedQueries(
         {
             @NamedQuery(
-                    name = Pedido.BEBIDA_DE_PEDIDO,
-                    query = "SELECT p.id, i.id, i.quantidade, b FROM Pedido p, Item i, Bebida b WHERE i.bebida.id = b.id AND p.itensSelecionados.id = i.id AND i.id = ?1"
+                    name = Pedido.PEDIDO_POR_ID,
+                    query = "SELECT p FROM Pedido p WHERE p.id = ?1"
             ),
             @NamedQuery(
                     name = Pedido.PEDIDO_DONO,
@@ -54,7 +54,7 @@ import javax.validation.constraints.NotNull;
 )
 public class Pedido implements Serializable {
 
-    public static final String BEBIDA_DE_PEDIDO = "BebidaDePedido";    
+    public static final String PEDIDO_POR_ID = "BebidaDePedido";    
     public static final String PEDIDO_DONO = "PedidoDono";    
     public static final String PEDIDO_QUANTIDADE_ITENS = "CEPEntregaDoPedido";    
     @Id
