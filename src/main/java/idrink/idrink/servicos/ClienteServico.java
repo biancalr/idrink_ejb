@@ -53,7 +53,7 @@ public class ClienteServico <T extends Cliente>{
     }
     
     @TransactionAttribute(SUPPORTS)
-    public Cliente criar(@Valid T cliente){
+    public Cliente criar(){
         return new Cliente();
     }
     

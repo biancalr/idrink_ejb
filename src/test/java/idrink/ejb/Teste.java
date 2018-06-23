@@ -5,12 +5,10 @@
  */
 package idrink.ejb;
 
-import org.junit.After;
+import java.util.logging.Logger;
+import javax.ejb.embeddable.EJBContainer;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -18,28 +16,18 @@ import static org.junit.Assert.*;
  */
 public class Teste {
     
-    public Teste() {
-    }
+    protected static EJBContainer container;
+    protected final Logger logger = Logger.getGlobal();
     
     @BeforeClass
     public static void setUpClass() {
+        container = EJBContainer.createEJBContainer();
+        DbUnitUtil.inserirDados();
     }
     
     @AfterClass
     public static void tearDownClass() {
+        container.close();
     }
     
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
 }
