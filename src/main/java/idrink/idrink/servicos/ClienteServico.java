@@ -21,6 +21,7 @@ import static javax.persistence.PersistenceContextType.TRANSACTION;
 import javax.persistence.TypedQuery;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -84,7 +85,12 @@ public class ClienteServico <T extends Cliente>{
     }
     
     @TransactionAttribute(SUPPORTS)
-    protected T consultarEntidade(Object[] parametros, String nomeQuery) {
+    public List<Cliente> consultarClientes(@NotBlank String bandeiraCartao) {
+        return (List<Cliente>) consultarEntidades(new Object[] {bandeiraCartao}, Cliente.CLIENTE_POR_CARTAO);
+    }
+    
+    @TransactionAttribute(SUPPORTS)
+    public T consultarEntidade(Object[] parametros, String nomeQuery) {
         TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, classe);
 
         int i = 1;
@@ -96,7 +102,7 @@ public class ClienteServico <T extends Cliente>{
     }
     
     @TransactionAttribute(SUPPORTS)
-    protected List<T> consultarEntidades(Object[] parametros, String nomeQuery) {
+    public List<T> consultarEntidades(Object[] parametros, String nomeQuery) {
         TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, classe);
 
         int i = 1;
