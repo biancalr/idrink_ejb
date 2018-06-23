@@ -9,9 +9,7 @@ import idrink.idrink.entidades.Cliente;
 import idrink.idrink.servicos.ClienteServico;
 import javax.naming.NamingException;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
