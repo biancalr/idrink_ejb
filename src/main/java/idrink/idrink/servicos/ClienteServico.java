@@ -21,7 +21,6 @@ import static javax.persistence.PersistenceContextType.TRANSACTION;
 import javax.persistence.TypedQuery;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.br.CPF;
 
 /**
  *
@@ -77,6 +76,11 @@ public class ClienteServico <T extends Cliente>{
             entityManager.remove(emc);
             entityManager.flush();
         }
+    }
+    
+    @TransactionAttribute(SUPPORTS)
+    public T consultarPorId(@NotNull Long id) {
+        return entityManager.find(classe, id);
     }
     
     @TransactionAttribute(SUPPORTS)
