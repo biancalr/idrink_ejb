@@ -14,7 +14,6 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.EJBException;
 import javax.naming.NamingException;
-import javax.persistence.TypedQuery;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import org.hamcrest.CoreMatchers;
@@ -147,7 +146,7 @@ public class ClienteTest extends Teste {
     @Test
     public void clientesPorCartao(){
         List<Cliente> clientes = clienteServico.consultarClientes("AMEX");
-        assertEquals(clientes.size(), 2);
+        assertEquals(2, clientes.size());
         assertTrue(clientes.get(0).getId() == 4);
         assertTrue(clientes.get(0).getId() == 6);
     }
