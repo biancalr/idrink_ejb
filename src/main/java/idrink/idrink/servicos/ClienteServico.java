@@ -96,11 +96,6 @@ public class ClienteServico <T extends Cliente>{
     }
     
     @TransactionAttribute(SUPPORTS)
-    public T consultarQuantidadePedidos(@NotBlank String nomeCliente){
-        return consultarEntidade(new Object[] {nomeCliente}, Cliente.PEDIDO_POR_CLIENTE);
-    }
-    
-    @TransactionAttribute(SUPPORTS)
     public T consultarEntidade(Object[] parametros, String nomeQuery) {
         TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, classe);
 
