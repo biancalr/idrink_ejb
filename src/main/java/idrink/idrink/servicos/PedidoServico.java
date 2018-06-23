@@ -5,7 +5,6 @@
  */
 package idrink.idrink.servicos;
 
-import idrink.idrink.entidades.Cliente;
 import idrink.idrink.entidades.Pedido;
 import java.util.List;
 import javax.ejb.LocalBean;
@@ -85,7 +84,20 @@ public class PedidoServico<T extends Pedido> {
 
     @TransactionAttribute(SUPPORTS)
     public T consultarDono(@NotNull Long idPedido) {
-        return consultarEntidade(new Object[]{idPedido}, Pedido.PEDIDO_DONO);
+        if (existe(consultarPorId(idPedido))) {
+            return consultarEntidade(new Object[]{idPedido}, Pedido.PEDIDO_DONO);
+        }else{
+            return null;
+        }
+    }
+
+    @TransactionAttribute(SUPPORTS)
+    public T consultarQuantidadeItens(@NotNull Long idPedido) {
+        if (existe(consultarPorId(idPedido))) {
+            return consultarEntidade(new Object[]{idPedido}, Pedido.PEDIDO_QUANTIDADE_ITENS);
+        } else {
+            return null;
+        }
     }
 
     @TransactionAttribute(SUPPORTS)
