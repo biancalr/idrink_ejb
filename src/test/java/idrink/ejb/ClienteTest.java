@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.EJBException;
 import javax.naming.NamingException;
+import javax.persistence.TypedQuery;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import org.hamcrest.CoreMatchers;
