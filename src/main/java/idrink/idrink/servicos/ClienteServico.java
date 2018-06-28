@@ -22,7 +22,6 @@ import javax.persistence.TypedQuery;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.br.CPF;
 
 /**
  *
@@ -77,21 +76,17 @@ public class ClienteServico <T extends Cliente>{
             T emc = entityManager.merge(cliente);
             entityManager.remove(emc);
             entityManager.flush();
+            entityManager.clear();
         }
     }
     
     @TransactionAttribute(SUPPORTS)
-    public T consultarPorId(@NotNull Long id) {
-        return entityManager.find(classe, id);
-    }
-    
-    @TransactionAttribute(SUPPORTS)
-    public List<Cliente> consultarClientes(@NotBlank String bandeiraCartao) {
+    public List<Cliente> consultarClientesPorCartao(@NotBlank String bandeiraCartao) {
         return (List<Cliente>) consultarEntidades(new Object[] {bandeiraCartao}, Cliente.CLIENTE_POR_CARTAO);
     }
     
     @TransactionAttribute(SUPPORTS)
-    public T consultarPorCPF(@CPF String cpf){
+    public T consultarPorCPF(@NotBlank String cpf){
         return consultarEntidade(new Object[] {cpf}, Cliente.CLIENTE_POR_CPF);
     }
     
