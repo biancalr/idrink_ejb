@@ -18,6 +18,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
@@ -35,8 +37,22 @@ import org.hibernate.validator.constraints.NotBlank;
 @DiscriminatorColumn(name = "ALCOOLICO",
         discriminatorType = DiscriminatorType.STRING, length = 3)
 @Access(AccessType.FIELD)
+@NamedQueries(
+        {
+            @NamedQuery(
+                    name = Bebida.BEBIDA_POR_ID,
+                    query = "SELECT b FROM Bebida b WHERE b.id = ?1"
+            ),
+            @NamedQuery(
+                    name = Bebida.BEBIDA_POR_NOME,
+                    query = "SELECT b FROM Bebida b WHERE b.nome = ?1"
+            )
+        }
+)
 public class Bebida implements Serializable {
 
+    public static final String BEBIDA_POR_ID = "BebidaPorId";  
+    public static final String BEBIDA_POR_NOME = "BebidaPorNome";  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;

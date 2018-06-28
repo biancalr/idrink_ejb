@@ -27,7 +27,7 @@ import javax.validation.constraints.NotNull;
  * @author bianca
  * @param <T>
  */
-@Stateless
+@Stateless(name = "ejb/ItemServico")
 @LocalBean
 @TransactionManagement(CONTAINER)
 @TransactionAttribute(REQUIRED)

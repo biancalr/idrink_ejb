@@ -33,7 +33,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.br.CPF;
 
 /**
  *
@@ -88,8 +87,7 @@ public class Cliente implements Serializable {
     @Column(name = "TXT_NOME", length = 255)
     private String nome;
     @NotNull
-    @CPF
-    @Column(name = "TXT_CPF")
+    @Column(name = "TXT_CPF", length = 11)
     private String cpf;
     @NotBlank
     @Email(message = "{idrink.Cliente.email}")

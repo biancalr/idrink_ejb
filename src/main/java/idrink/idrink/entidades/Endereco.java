@@ -12,7 +12,6 @@ import javax.persistence.Embeddable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -25,7 +24,6 @@ public class Endereco implements Serializable {
     
 //    @Size(min = 8, max = 9, message = "{idrink.Endereco.cep}")
     @NotBlank
-    @Pattern(regexp = "[0-90]{2}.[0-9]{3}-[0-9]{3}", message = "{idrink.Endereco.cep}")
     @Column(name = "END_TXT_CEP")
     private String cep;
     @NotBlank

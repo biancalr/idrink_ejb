@@ -85,7 +85,7 @@ public class PedidoServico<T extends Pedido> {
 
     @TransactionAttribute(SUPPORTS)
     public List<Pedido> consultarPedidosPorData(@NotNull Date data) {
-        return (List<Pedido>) consultarEntidade(new Object[]{data}, Pedido.PEDIDO_POR_DATA);
+        return (List<Pedido>) consultarEntidades(new Object[]{data}, Pedido.PEDIDO_POR_DATA);
     }
 
     @TransactionAttribute(SUPPORTS)

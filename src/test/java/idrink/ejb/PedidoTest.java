@@ -70,10 +70,11 @@ public class PedidoTest extends Teste{
     
     @Test
     public void excluir() {
-        Pedido pedido = pedidoServico.consultarPorId(new Long(12));
+        Long id = (long) 12;
+        Pedido pedido = pedidoServico.consultarPorId(id);
         Item item = itemServico.consultarPorId(pedido.getItensSelecionados().get(0).getId());
         pedidoServico.excluir(pedido);
-        assertNull(pedidoServico.consultarPorId(new Long(2)));
+        assertNull(pedidoServico.consultarPorId(pedido.getId()));
         assertNull(itemServico.consultarPorId(pedido.getItensSelecionados().get(0).getId()));
         
     }

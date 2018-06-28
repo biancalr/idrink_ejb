@@ -53,7 +53,7 @@ public class ClienteTest extends Teste {
     @Test
     public void existeCliente() {
         Cliente cliente = clienteServico.criar();
-        cliente.setCpf("50.670-210");
+        cliente.setCpf("80825728410");
         assertTrue(clienteServico.existe(cliente));
     }
 
@@ -61,42 +61,30 @@ public class ClienteTest extends Teste {
     public void persistir() {
 
         Cliente cliente = clienteServico.criar();
-        cliente.setCpf("212.762.055-03");
-        cliente.setEmail("jose@gmail.com");
-        cliente.setLogin("joses");
-        cliente.setTelefone("995907123");
-        cliente.setSenha("!teStE123@");
+        cliente.setNome("Xuxa");
+        cliente.setCpf("66666666666");
+        cliente.setTelefone("3016-2564");
+        cliente.setLogin("Xuxis");
+        cliente.setEmail("xuxa@gmail.com");
+        cliente.setSenha("xu6666");
+        criarEndereco(cliente);
+        criarCartao(cliente);
+        
+        clienteServico.persistir(cliente);
 
-        Endereco endereco = new Endereco();
-        endereco.setBairro("Engenho do Meio");
-        endereco.setCep("50.640-120");
-        endereco.setCidade("Recife");
-        endereco.setComplemento("Apto 301");
-        endereco.setEstado("PE");
-        endereco.setLogradouro("Rua da Igreja");
-        endereco.setNumero(120);
-        cliente.setEndereco(endereco);
-
-        Cartao cartao = new Cartao();
-        cartao.setNumero("5462014816361274");
-        cartao.setDataExpiracao(getData(15, Calendar.FEBRUARY, 2022));
-        cartao.setBandeira("SODEXO");
-        cliente.setCartao(cartao);
-
-        if (!clienteServico.existe(cliente)) {
-            clienteServico.persistir(cliente);
-            assertNotNull(cliente.getId());
-
-        }
-
+    }
+    
+    @Test
+    public void getClientePorId() {
+        assertNotNull(clienteServico.consultarPorId(new Long(3)));
     }
 
     @Test
     public void atualizar() {
-        Cliente cliente = clienteServico.consultarPorId(new Long(1));
+        Cliente cliente = clienteServico.consultarPorId((long) 1);
         cliente.setSenha("outraSenha");
         clienteServico.atualizar(cliente);
-        cliente = clienteServico.consultarPorId(new Long(1));
+        cliente = clienteServico.consultarPorId((long) 1);
         assertEquals("outraSenha", cliente.getSenha());
     }
 
@@ -135,8 +123,9 @@ public class ClienteTest extends Teste {
                     = (ConstraintViolationException) ex.getCause();
             for (ConstraintViolation erroValidacao : causa.getConstraintViolations()) {
                 assertThat(erroValidacao.getMessage(),
-                        CoreMatchers.anyOf(startsWith("Email invalido"),
+                        CoreMatchers.anyOf(startsWith("Não pode estar em branco"),
                                 startsWith("CEP invalido"), 
+                                startsWith("Email invalido"), 
                                 startsWith("Estado invalido")));
             }
         }
@@ -145,10 +134,34 @@ public class ClienteTest extends Teste {
     
     @Test
     public void clientesPorCartao(){
-        List<Cliente> clientes = clienteServico.consultarClientes("AMEX");
-        assertEquals(2, clientes.size());
-        assertTrue(clientes.get(0).getId() == 4);
-        assertTrue(clientes.get(0).getId() == 6);
+        List<Cliente> clientes = clienteServico.consultarClientes("VISA");
+        assertEquals(1, clientes.size());
+        assertTrue(clientes.get(0).getId() == 1);
+    }
+
+    private Endereco criarEndereco(Cliente cliente) {
+        Endereco endereco = new Endereco();
+        endereco.setCep("50690-220");
+        endereco.setEstado("Pernambuco");
+        endereco.setCidade("Recife");
+        endereco.setBairro("Iputinga");
+        endereco.setLogradouro("Rua Iolanda Rodrigues Sobral");
+        endereco.setNumero(550);
+        endereco.setComplemento("Apto. 109");
+        cliente.setEndereco(endereco);
+        return endereco;
+    }
+
+    private void criarCartao(Cliente cliente) {
+        Cartao cartao = new Cartao();
+        cartao.setBandeira("VISA");
+        cartao.setNumero("1888828188900044");
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, 2019);
+        c.set(Calendar.MONTH, Calendar.AUGUST);
+        c.set(Calendar.DAY_OF_MONTH, 04);
+        cartao.setDataExpiracao(c.getTime());
+        cliente.setCartao(cartao);
     }
 
 

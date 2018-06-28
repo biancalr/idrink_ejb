@@ -27,7 +27,7 @@ import javax.validation.constraints.NotNull;
  * @author bianca
  * @param <T>
  */
-@Stateless
+@Stateless(name = "ejb/BebidaServico")
 @LocalBean
 @TransactionManagement(CONTAINER)
 @TransactionAttribute(REQUIRED)
@@ -45,8 +45,7 @@ public class BebidaServico <T extends Bebida>{
     @TransactionAttribute(SUPPORTS)
     public boolean existe(@NotNull T bebida) {
         TypedQuery query
-                = entityManager.createNamedQuery(
-                        "SELECT b FROM Bebida b WHERE id = ?1", classe);
+                = entityManager.createNamedQuery(Bebida.BEBIDA_POR_ID, classe);
         query.setParameter(1, bebida.getId());
         return !query.getResultList().isEmpty();
     }
