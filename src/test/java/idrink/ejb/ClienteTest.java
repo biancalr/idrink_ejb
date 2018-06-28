@@ -104,7 +104,6 @@ public class ClienteTest extends Teste {
     @Test
     public void excluir() {
         //CPF de Sicrano Silva
-        //Arrumar esse teste. Resulta em falha
         Cliente cliente = clienteServico.consultarPorCPF("74070704400");
         assertTrue(clienteServico.existe(cliente));
         assertNotNull(cliente.getCartao().getId());
