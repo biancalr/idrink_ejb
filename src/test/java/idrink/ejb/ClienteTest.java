@@ -5,11 +5,13 @@
  */
 package idrink.ejb;
 
+import static idrink.ejb.Teste.container;
 import idrink.idrink.entidades.Cartao;
 import idrink.idrink.entidades.Cliente;
 import idrink.idrink.entidades.Endereco;
 import idrink.idrink.entidades.Pedido;
 import idrink.idrink.servicos.ClienteServico;
+import idrink.idrink.servicos.PedidoServico;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -32,20 +34,18 @@ import static org.junit.Assert.*;
 public class ClienteTest extends Teste {
 
     private ClienteServico clienteServico;
-
-    public ClienteTest() {
-        super();
-    }
+    private PedidoServico pedidoServico;
 
     @After
     public void tearDown() {
         clienteServico = null;
+        pedidoServico = null;
     }
 
     @Before
     public void setUp() throws NamingException {
         clienteServico = (ClienteServico) container.getContext().lookup("java:global/classes/ejb/ClienteServico!idrink.idrink.servicos.ClienteServico");
-
+        pedidoServico = (PedidoServico) container.getContext().lookup("java:global/classes/ejb/PedidoServico!idrink.idrink.servicos.PedidoServico");
     }
 
     protected Date getData(int dia, int mes, int ano) {
@@ -108,6 +108,8 @@ public class ClienteTest extends Teste {
         Cliente cliente = clienteServico.consultarPorCPF("74070704400");
         assertTrue(clienteServico.existe(cliente));
         assertNotNull(cliente.getCartao().getId());
+        List<Cliente> clientesMaster = clienteServico.consultarClientesPorCartao("MASTERCARD");
+        assertEquals(2, clientesMaster.size());
         List<Pedido> pedidos = new ArrayList<>();
         for (int i = 0; i < cliente.getPedidos().size(); i++) {
             pedidos.add(cliente.getPedidos().get(i));
@@ -117,12 +119,11 @@ public class ClienteTest extends Teste {
         cliente.removerPedido(pedidos.get(1));
         clienteServico.excluir(cliente);
         assertTrue(clienteServico.existe(cliente) == false);
-        assertNull(cliente.getCartao().getId());
-        for (int i = 0; i < cliente.getPedidos().size(); i++) {
-            pedidos.add(cliente.getPedidos().get(i));
-            assertNull(pedidos.get(i).getId());
-        }
-        
+        assertTrue(pedidoServico.existe(pedidos.get(0)) == false);
+        assertTrue(pedidoServico.existe(pedidos.get(1)) == false);
+        clientesMaster = clienteServico.consultarClientesPorCartao("MASTERCARD");
+        assertEquals(1, clientesMaster.size());
+                
     }
 
     @Test
