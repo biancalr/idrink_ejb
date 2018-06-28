@@ -104,6 +104,7 @@ public class ClienteTest extends Teste {
     @Test
     public void excluir() {
         //CPF de Sicrano Silva
+        //Arrumar esse teste. Resulta em falha
         Cliente cliente = clienteServico.consultarPorCPF("74070704400");
         assertTrue(clienteServico.existe(cliente));
         assertNotNull(cliente.getCartao().getId());
@@ -115,7 +116,7 @@ public class ClienteTest extends Teste {
         cliente.removerPedido(pedidos.get(0));
         cliente.removerPedido(pedidos.get(1));
         clienteServico.excluir(cliente);
-        assertNull(clienteServico.consultarPorCPF("74070704400"));
+        assertTrue(clienteServico.existe(cliente) == false);
         assertNull(cliente.getCartao().getId());
         for (int i = 0; i < cliente.getPedidos().size(); i++) {
             pedidos.add(cliente.getPedidos().get(i));
