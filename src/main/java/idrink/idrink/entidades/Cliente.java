@@ -88,7 +88,7 @@ public class Cliente implements Serializable {
     private String nome;
     @NotNull
     @Size(min = 11, max = 11, message = "{idrink.Cliente.cpf}")
-    @Column(name = "TXT_CPF")
+    @Column(name = "TXT_CPF", unique = true)
     private String cpf;
     @NotBlank
     @Email(message = "{idrink.Cliente.email}")
