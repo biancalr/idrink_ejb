@@ -8,7 +8,9 @@ package idrink.ejb;
 import idrink.idrink.entidades.Cartao;
 import idrink.idrink.entidades.Cliente;
 import idrink.idrink.entidades.Endereco;
+import idrink.idrink.entidades.Pedido;
 import idrink.idrink.servicos.ClienteServico;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +32,10 @@ import static org.junit.Assert.*;
 public class ClienteTest extends Teste {
 
     private ClienteServico clienteServico;
+
+    public ClienteTest() {
+        super();
+    }
 
     @After
     public void tearDown() {
@@ -71,34 +77,57 @@ public class ClienteTest extends Teste {
         criarCartao(cliente);
         
         clienteServico.persistir(cliente);
+        cliente = clienteServico.consultarPorCPF(cliente.getCpf());
+        assertNotNull(cliente.getId());
+        assertNotNull(cliente.getCartao().getId());
+        assertNotNull(cliente.getEndereco());
 
     }
     
     @Test
-    public void getClientePorId() {
-        assertNotNull(clienteServico.consultarPorId(new Long(3)));
+    public void getClientePorCPF() {
+        assertNotNull(clienteServico.consultarPorCPF("48485484703"));
     }
 
     @Test
     public void atualizar() {
-        Cliente cliente = clienteServico.consultarPorId((long) 1);
-        cliente.setSenha("outraSenha");
+        //CPF de Batman Morcego
+        Cliente cliente = clienteServico.consultarPorCPF("78782922306");
+        cliente.setSenha("IronManSucks"); //nova senha
+        cliente.setLogin("I'mBatman"); //novo login
         clienteServico.atualizar(cliente);
-        cliente = clienteServico.consultarPorId((long) 1);
-        assertEquals("outraSenha", cliente.getSenha());
+        cliente = clienteServico.consultarPorCPF("78782922306");
+        assertEquals("IronManSucks", cliente.getSenha());
+        assertEquals("I'mBatman", cliente.getLogin());
     }
 
     @Test
     public void excluir() {
-        Cliente cliente = clienteServico.consultarPorId(new Long(2));
+        //CPF de Sicrano Silva
+        Cliente cliente = clienteServico.consultarPorCPF("74070704400");
+        assertTrue(clienteServico.existe(cliente));
+        assertNotNull(cliente.getCartao().getId());
+        List<Pedido> pedidos = new ArrayList<>();
+        for (int i = 0; i < cliente.getPedidos().size(); i++) {
+            pedidos.add(cliente.getPedidos().get(i));
+        }
+        assertEquals(2, pedidos.size());
+        cliente.removerPedido(pedidos.get(0));
+        cliente.removerPedido(pedidos.get(1));
         clienteServico.excluir(cliente);
-        assertNull(clienteServico.consultarPorId(new Long(2)));
+        assertNull(clienteServico.consultarPorCPF("74070704400"));
+        assertNull(cliente.getCartao().getId());
+        for (int i = 0; i < cliente.getPedidos().size(); i++) {
+            pedidos.add(cliente.getPedidos().get(i));
+            assertNull(pedidos.get(i).getId());
+        }
+        
     }
 
     @Test
-    public void persistirInValido() {
+    public void persistirInvalido() {
         Cliente cliente = clienteServico.criar();
-        cliente.setCpf("212.762.055-03");
+        cliente.setCpf("21276205503");
         cliente.setEmail("jose_gmail,com");//email incorreto
         cliente.setLogin("joses");
         cliente.setTelefone("99590-7123");
@@ -121,20 +150,23 @@ public class ClienteTest extends Teste {
             assertTrue(ex.getCause() instanceof ConstraintViolationException);
             ConstraintViolationException causa
                     = (ConstraintViolationException) ex.getCause();
+            int quantidadeErros = 0;
             for (ConstraintViolation erroValidacao : causa.getConstraintViolations()) {
                 assertThat(erroValidacao.getMessage(),
                         CoreMatchers.anyOf(startsWith("Não pode estar em branco"),
                                 startsWith("CEP invalido"), 
                                 startsWith("Email invalido"), 
                                 startsWith("Estado invalido")));
+                quantidadeErros++;
             }
+        assertEquals(3, quantidadeErros);
         }
 
     }
     
     @Test
     public void clientesPorCartao(){
-        List<Cliente> clientes = clienteServico.consultarClientes("VISA");
+        List<Cliente> clientes = clienteServico.consultarClientesPorCartao("VISA");
         assertEquals(1, clientes.size());
         assertTrue(clientes.get(0).getId() == 1);
     }
