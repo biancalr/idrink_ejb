@@ -11,6 +11,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
 
 /**
  *
@@ -34,6 +36,7 @@ public class BebidaComum extends Bebida implements Serializable {
 
     public static final String BEBIDAS_COMUNS = "bebidasComuns";
     public static final String BEBIDAS_POR_ACUCAR = "bebidasPorAcucar";
+    @Min(value = 0, message = "{idrink.BebidaComum.acucar}")
     @Column(name = "QUANT_GRAMAS_ACUCAR", nullable = true)
     private Integer acucar;
     
