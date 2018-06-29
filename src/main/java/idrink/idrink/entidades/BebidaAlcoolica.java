@@ -35,13 +35,13 @@ public class BebidaAlcoolica extends Bebida implements Serializable {
     public static final String BEBIDAS_POR_TEOR = "selecionarPorTeor";
     public static final String BEBIDAS_ALCOOLICAS = "bebidasAlcoolicas";
     @Column(name = "PERCENT_TEOR_ALCOOL", nullable = true)
-    private Float teor;
+    private Double teor;
 
-    public Float getTeor() {
+    public Double getTeor() {
         return teor;
     }
 
-    public void setTeor(Float teor) {
+    public void setTeor(Double teor) {
         this.teor = teor;
     }
 
