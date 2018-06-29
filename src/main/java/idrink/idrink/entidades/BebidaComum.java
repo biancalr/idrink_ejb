@@ -9,6 +9,8 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
@@ -16,8 +18,22 @@ import javax.persistence.Entity;
  */
 @Entity
 @DiscriminatorValue(value = "NAO")
+@NamedQueries(
+        {
+            @NamedQuery(
+                    name = BebidaComum.BEBIDAS_COMUNS,
+                    query = "SELECT bc FROM BebidaComum bc ORDER BY bc.id"
+            ),
+            @NamedQuery(
+                    name = BebidaComum.BEBIDAS_POR_ACUCAR,
+                    query = "SELECT bc.nome, bc.acucar, bc.preco FROM BebidaComum bc WHERE bc.acucar < ?1 ORDER BY bc.acucar"
+            )
+        }
+)
 public class BebidaComum extends Bebida implements Serializable {
 
+    public static final String BEBIDAS_COMUNS = "bebidasComuns";
+    public static final String BEBIDAS_POR_ACUCAR = "bebidasPorAcucar";
     @Column(name = "QUANT_GRAMAS_ACUCAR", nullable = true)
     private Integer acucar;
     
