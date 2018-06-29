@@ -40,7 +40,7 @@ public class PedidoServico<T extends Pedido> {
 
     @TransactionAttribute(NOT_SUPPORTED)
     protected void setClasse(@NotNull Class<T> classe) {
-        this.classe = classe;
+        this.classe = (Class<T>) Pedido.class;
     }
 
     @TransactionAttribute(SUPPORTS)
