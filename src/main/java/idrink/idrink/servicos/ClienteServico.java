@@ -41,7 +41,7 @@ public class ClienteServico <T extends Cliente>{
     
     @TransactionAttribute(NOT_SUPPORTED)
     protected void setClasse(@NotNull Class<T> classe){
-        this.classe = classe;
+        this.classe = (Class<T>) Cliente.class;
     }
     
     @TransactionAttribute(SUPPORTS)
