@@ -27,11 +27,9 @@ import javax.validation.constraints.NotNull;
  * @author bianca
  * @param <T>
  */
-@Stateless(name = "ejb/BebidaServico")
-@LocalBean
 @TransactionManagement(CONTAINER)
 @TransactionAttribute(REQUIRED)
-public class BebidaServico <T extends Bebida>{
+public abstract class BebidaServico <T extends Bebida>{
     
     @PersistenceContext(name = "idrink_ejb", type = TRANSACTION)
     protected EntityManager entityManager;
@@ -44,16 +42,11 @@ public class BebidaServico <T extends Bebida>{
     
     @TransactionAttribute(SUPPORTS)
     public boolean existe(@NotNull T bebida) {
-        TypedQuery query
-                = entityManager.createNamedQuery(Bebida.BEBIDA_POR_ID, classe);
-        query.setParameter(1, bebida.getId());
-        return !query.getResultList().isEmpty();
+        return true;
     }
     
     @TransactionAttribute(SUPPORTS)
-    public Bebida criar() {
-        return new Bebida();
-    }
+    public abstract T criar();
 
     public void persistir(@Valid T bebida) {
         if (!existe(bebida)) {
@@ -66,6 +59,7 @@ public class BebidaServico <T extends Bebida>{
         if (existe(bebida)) {
             entityManager.merge(bebida);
             entityManager.flush();
+            entityManager.clear();
         }
     }
     
@@ -74,6 +68,7 @@ public class BebidaServico <T extends Bebida>{
             T emb = entityManager.merge(bebida);
             entityManager.remove(emb);
             entityManager.flush();
+            entityManager.clear();
         }
     }
     
