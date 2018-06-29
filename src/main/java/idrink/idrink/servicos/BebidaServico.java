@@ -7,8 +7,6 @@ package idrink.idrink.servicos;
 
 import idrink.idrink.entidades.Bebida;
 import java.util.List;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import static javax.ejb.TransactionAttributeType.NOT_SUPPORTED;
 import static javax.ejb.TransactionAttributeType.REQUIRED;
