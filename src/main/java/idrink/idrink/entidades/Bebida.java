@@ -46,6 +46,10 @@ import org.hibernate.validator.constraints.NotBlank;
             @NamedQuery(
                     name = Bebida.BEBIDA_POR_NOME,
                     query = "SELECT b FROM Bebida b WHERE b.nome = ?1"
+            ),
+            @NamedQuery(
+                    name = Bebida.BEBIDA_POR_PRECO,
+                    query = "SELECT b FROM Bebida b WHERE b.preco < ?1"
             )
         }
 )
@@ -53,6 +57,7 @@ public class Bebida implements Serializable {
 
     public static final String BEBIDA_POR_ID = "BebidaPorId";  
     public static final String BEBIDA_POR_NOME = "BebidaPorNome";  
+    public static final String BEBIDA_POR_PRECO = "BebidaPorPreco";  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
