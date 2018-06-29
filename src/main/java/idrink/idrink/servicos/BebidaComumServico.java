@@ -10,6 +10,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.validation.Valid;
 
 /**
  *
@@ -33,7 +34,7 @@ public class BebidaComumServico extends BebidaServico<BebidaComum>{
         return super.consultarEntidades(null, BebidaComum.BEBIDAS_COMUNS);
     }
     
-    public List<BebidaComum> getBebidasPorAcucar(Integer gramasAcucar){
+    public List<BebidaComum> getBebidasPorAcucar(@Valid Integer gramasAcucar){
         return super.consultarEntidades(new Object[]{gramasAcucar}, BebidaComum.BEBIDAS_POR_ACUCAR);
     }
     
