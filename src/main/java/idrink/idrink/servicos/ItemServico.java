@@ -39,7 +39,7 @@ public class ItemServico<T extends Item> {
 
     @TransactionAttribute(NOT_SUPPORTED)
     protected void setClasse(@NotNull Class<T> classe) {
-        this.classe = classe;
+        this.classe = (Class<T>) Item.class;
     }
 
     @TransactionAttribute(SUPPORTS)
@@ -95,7 +95,7 @@ public class ItemServico<T extends Item> {
     public T consultaPedidoDoItem(@NotNull Long idItem){
         if(existe(consultarPorId(idItem))){
             return consultarEntidade(new Object[]{idItem}, 
-                    "SELECT i.pedido.id FROM Item i WHERE i.id = ?1");
+                    "SELECT i.pedido.id FROM Item i WHERE i.pedido.id = i.id AND i.id = ?1");
         }else{
             return null;
         }
