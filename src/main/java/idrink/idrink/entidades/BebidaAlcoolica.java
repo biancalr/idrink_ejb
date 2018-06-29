@@ -22,7 +22,7 @@ import javax.persistence.NamedQuery;
         {
             @NamedQuery(
                     name = BebidaAlcoolica.BEBIDAS_POR_TEOR,
-                    query = "SELECT ba.nome, ba.teor, ba.preco FROM BebidaAlcoolica ba ORDER BY ba.teor"
+                    query = "SELECT ba.nome, ba.teor, ba.preco FROM BebidaAlcoolica ba WHERE ba.teor < ?1 ORDER BY ba.teor"
             ),
             @NamedQuery(
                     name = BebidaAlcoolica.BEBIDAS_ALCOOLICAS,
