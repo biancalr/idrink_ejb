@@ -104,26 +104,6 @@ public class PedidoTest extends Teste {
     
     @Test
     public void adicionarPedido() {
-//        Pedido pedido = pedidoServico.criar();
-//        pedido.setDataPedido(getData(13, Calendar.AUGUST, 2018));
-//        pedido.setHoraPedido(new Date());
-//        pedido.setStatusCompra(StatusCompra.APROVADO);
-//        //CPF de Capitao America
-//        Cliente cliente = clienteServico.criar();
-//        cliente = clienteServico.consultarPorId(new Long(6));
-//        assertNotNull(cliente.getId());
-//        pedido.setCliente(cliente);
-//        pedido.atualizaStatusCompra();
-//        //id de Cachaça
-//        BebidaAlcoolica ba = alcoolicaServico.criar();
-//        ba = alcoolicaServico.consultarPorId(new Long(6));
-//        assertNotNull(ba);
-//        Item item = itemServico.criar();
-//        assertNotNull(item);
-//        item.adicionarBebida(ba, 2);
-//        item.setPedido(pedido);
-//        pedidoServico.persistir(pedido);
-//        assertEquals(2, cliente.getPedidos().size());
         
     }
     
@@ -144,20 +124,6 @@ public class PedidoTest extends Teste {
 
     @Test
     public void adicionarItemAoPedido() {
-        //Stack Ove
-//        Pedido pedido = pedidoServico.criar();
-//        pedido = pedidoServico.consultarPorId(new Long(1));
-//        assertNotNull(pedido.getId());
-//        BebidaComum bc = comumServico.criar();
-//        bc = comumServico.consultarPorId(new Long(4));
-//        assertNotNull(bc.getId());
-//        Item item = itemServico.criar();
-//        item.setBebida(bc);
-//        item.setQuantidade(3);
-//        pedido.addItem(item);
-//        pedidoServico.atualizar(pedido);
-//        pedido = pedidoServico.consultarPorId(new Long(1));
-//        assertEquals(2, pedido.getItensSelecionados().size());
 
     }
 
