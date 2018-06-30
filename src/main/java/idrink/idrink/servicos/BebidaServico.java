@@ -7,6 +7,7 @@ package idrink.idrink.servicos;
 
 import idrink.idrink.entidades.Bebida;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.TransactionAttribute;
 import static javax.ejb.TransactionAttributeType.NOT_SUPPORTED;
 import static javax.ejb.TransactionAttributeType.REQUIRED;
@@ -36,6 +37,11 @@ public abstract class BebidaServico <T extends Bebida>{
     @TransactionAttribute(NOT_SUPPORTED)
     protected void setClasse(@NotNull Class<T> classe) {
         this.classe = classe;
+    }
+    
+    @PostConstruct
+    public void init() {
+        setClasse((Class<T>) Bebida.class);
     }
     
     @TransactionAttribute(SUPPORTS)

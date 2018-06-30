@@ -7,6 +7,7 @@ package idrink.idrink.servicos;
 
 import idrink.idrink.entidades.Cliente;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -41,7 +42,12 @@ public class ClienteServico <T extends Cliente>{
     
     @TransactionAttribute(NOT_SUPPORTED)
     protected void setClasse(@NotNull Class<T> classe){
-        this.classe = (Class<T>) Cliente.class;
+        this.classe = classe;
+    }
+    
+    @PostConstruct
+    public void init() {
+        setClasse((Class<T>) Cliente.class);
     }
     
     @TransactionAttribute(SUPPORTS)
@@ -78,6 +84,11 @@ public class ClienteServico <T extends Cliente>{
             entityManager.flush();
             entityManager.clear();
         }
+    }
+    
+    @TransactionAttribute(SUPPORTS)
+    public T consultarPorId(@NotNull Long id) {
+        return entityManager.find(classe, id);
     }
     
     @TransactionAttribute(SUPPORTS)
