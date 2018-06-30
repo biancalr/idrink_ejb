@@ -103,6 +103,11 @@ public class PedidoTest extends Teste {
     }
     
     @Test
+    public void existeItem(){
+        
+    }
+    
+    @Test
     public void adicionarPedido() {
         
     }
