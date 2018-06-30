@@ -6,9 +6,15 @@
 package idrink.ejb;
 
 import static idrink.ejb.Teste.container;
+import idrink.idrink.entidades.BebidaAlcoolica;
+import idrink.idrink.entidades.BebidaComum;
+import idrink.idrink.entidades.Cliente;
+import idrink.idrink.entidades.Item;
 import idrink.idrink.entidades.Pedido;
+import idrink.idrink.entidades.StatusCompra;
 import idrink.idrink.servicos.BebidaAlcoolicaServico;
 import idrink.idrink.servicos.BebidaComumServico;
+import idrink.idrink.servicos.ClienteServico;
 import idrink.idrink.servicos.ItemServico;
 import idrink.idrink.servicos.PedidoServico;
 import java.util.Calendar;
@@ -21,6 +27,11 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
+ * java.lang.StackOverflowError
+ *	at idrink.idrink.entidades.Item.setPedido(Item.java:90)
+ *	at idrink.idrink.entidades.Pedido.addItem(Pedido.java:137)
+ * 
+ * 
  *
  * @author bianca
  */
@@ -30,23 +41,37 @@ public class PedidoTest extends Teste {
     private ItemServico itemServico;
     private BebidaAlcoolicaServico alcoolicaServico;
     private BebidaComumServico comumServico;
-
+    private ClienteServico clienteServico;
+    
+    /**
+     * 
+     * @throws NamingException 
+     */
     @Before
     public void setUp() throws NamingException {
         pedidoServico = (PedidoServico) container.getContext().lookup("java:global/classes/ejb/PedidoServico!idrink.idrink.servicos.PedidoServico");
+        clienteServico = (ClienteServico) container.getContext().lookup("java:global/classes/ejb/ClienteServico!idrink.idrink.servicos.ClienteServico");
         itemServico = (ItemServico) container.getContext().lookup("java:global/classes/ejb/ItemServico!idrink.idrink.servicos.ItemServico");
         alcoolicaServico = (BebidaAlcoolicaServico) container.getContext().lookup("java:global/classes/ejb/BebidaAlcoolicaServico!idrink.idrink.servicos.BebidaAlcoolicaServico");
         comumServico = (BebidaComumServico) container.getContext().lookup("java:global/classes/ejb/BebidaComumServico!idrink.idrink.servicos.BebidaComumServico");
     }
-
+    
     @After
     public void tearDown() {
         itemServico = null;
         pedidoServico = null;
         alcoolicaServico = null;
         comumServico = null;
+        clienteServico = null;
     }
 
+    /**
+     * 
+     * @param dia
+     * @param mes
+     * @param ano
+     * @return The data
+     */
     protected Date getData(int dia, int mes, int ano) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH, dia);
@@ -55,6 +80,9 @@ public class PedidoTest extends Teste {
         return calendar.getTime();
     }
 
+    /**
+     * Verifica a existencia de um pedido
+     */
     @Test
     public void existePedido() {
         Pedido pedido = pedidoServico.criar();
@@ -62,6 +90,9 @@ public class PedidoTest extends Teste {
         assertTrue(pedidoServico.existe(pedido));
     }
 
+    /**
+     * Verifica quais pedidos foram feitos naquela data
+     */
     @Test
     public void pedidoPorData() {
         List<Pedido> pedidos = pedidoServico.consultarPedidosPorData(getData(2, Calendar.APRIL, 2018));
@@ -73,6 +104,27 @@ public class PedidoTest extends Teste {
     
     @Test
     public void adicionarPedido() {
+//        Pedido pedido = pedidoServico.criar();
+//        pedido.setDataPedido(getData(13, Calendar.AUGUST, 2018));
+//        pedido.setHoraPedido(new Date());
+//        pedido.setStatusCompra(StatusCompra.APROVADO);
+//        //CPF de Capitao America
+//        Cliente cliente = clienteServico.criar();
+//        cliente = clienteServico.consultarPorId(new Long(6));
+//        assertNotNull(cliente.getId());
+//        pedido.setCliente(cliente);
+//        pedido.atualizaStatusCompra();
+//        //id de Cachaça
+//        BebidaAlcoolica ba = alcoolicaServico.criar();
+//        ba = alcoolicaServico.consultarPorId(new Long(6));
+//        assertNotNull(ba);
+//        Item item = itemServico.criar();
+//        assertNotNull(item);
+//        item.adicionarBebida(ba, 2);
+//        item.setPedido(pedido);
+//        pedidoServico.persistir(pedido);
+//        assertEquals(2, cliente.getPedidos().size());
+        
     }
     
     @Test
@@ -91,7 +143,21 @@ public class PedidoTest extends Teste {
     }
 
     @Test
-    public void adicionarItem() {
+    public void adicionarItemAoPedido() {
+        //Stack Ove
+//        Pedido pedido = pedidoServico.criar();
+//        pedido = pedidoServico.consultarPorId(new Long(1));
+//        assertNotNull(pedido.getId());
+//        BebidaComum bc = comumServico.criar();
+//        bc = comumServico.consultarPorId(new Long(4));
+//        assertNotNull(bc.getId());
+//        Item item = itemServico.criar();
+//        item.setBebida(bc);
+//        item.setQuantidade(3);
+//        pedido.addItem(item);
+//        pedidoServico.atualizar(pedido);
+//        pedido = pedidoServico.consultarPorId(new Long(1));
+//        assertEquals(2, pedido.getItensSelecionados().size());
 
     }
 
