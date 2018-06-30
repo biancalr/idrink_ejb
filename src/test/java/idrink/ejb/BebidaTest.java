@@ -142,7 +142,12 @@ public class BebidaTest extends Teste {
 
     @Test
     public void atualizar() {
-        
+        BebidaAlcoolica ba = alcoolicaServico.criar();
+        ba = alcoolicaServico.consultarPorId(new Long(7));
+        ba.setPreco(ba.getPreco() - 20.0);
+        alcoolicaServico.atualizar(ba);
+        ba = alcoolicaServico.consultarPorId(new Long(7));
+        assertTrue(ba.getPreco() == 89.99);
 
     }
 
