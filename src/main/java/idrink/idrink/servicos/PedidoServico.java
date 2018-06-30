@@ -8,6 +8,7 @@ package idrink.idrink.servicos;
 import idrink.idrink.entidades.Pedido;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -40,7 +41,12 @@ public class PedidoServico<T extends Pedido> {
 
     @TransactionAttribute(NOT_SUPPORTED)
     protected void setClasse(@NotNull Class<T> classe) {
-        this.classe = (Class<T>) Pedido.class;
+        this.classe = classe;
+    }
+    
+    @PostConstruct
+    public void init() {
+        setClasse((Class<T>) Pedido.class);
     }
 
     @TransactionAttribute(SUPPORTS)
@@ -67,6 +73,7 @@ public class PedidoServico<T extends Pedido> {
         if (existe(pedido)) {
             entityManager.merge(pedido);
             entityManager.flush();
+            entityManager.clear();
         }
     }
 
@@ -79,7 +86,7 @@ public class PedidoServico<T extends Pedido> {
     }
 
     @TransactionAttribute(SUPPORTS)
-    public T consultarPorId(@NotNull Long id) {
+    public T consultarPorId(Long id) {
         return entityManager.find(classe, id);
     }
 
