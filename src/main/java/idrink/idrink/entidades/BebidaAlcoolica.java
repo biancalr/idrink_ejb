@@ -11,6 +11,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.validation.constraints.DecimalMin;
 
 /**
  *
@@ -34,6 +35,7 @@ public class BebidaAlcoolica extends Bebida implements Serializable {
     
     public static final String BEBIDAS_POR_TEOR = "selecionarPorTeor";
     public static final String BEBIDAS_ALCOOLICAS = "bebidasAlcoolicas";
+    @DecimalMin(value = "0.0", message = "{idrink.BebidaAlcoolica.alcool}")
     @Column(name = "PERCENT_TEOR_ALCOOL", nullable = true)
     private Double teor;
 
