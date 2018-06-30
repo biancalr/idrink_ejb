@@ -10,6 +10,7 @@ import idrink.idrink.entidades.BebidaAlcoolica;
 import idrink.idrink.entidades.BebidaComum;
 import idrink.idrink.servicos.BebidaAlcoolicaServico;
 import idrink.idrink.servicos.BebidaComumServico;
+import java.util.List;
 import javax.ejb.EJBException;
 import javax.naming.NamingException;
 import javax.validation.ConstraintViolation;
@@ -141,16 +142,27 @@ public class BebidaTest extends Teste {
 
     @Test
     public void atualizar() {
+        
 
     }
 
+    /**
+     * Refere-se às bebidas com quantidade de acucar menor que o parametro
+     */
     @Test
     public void getBebidasPorAcucar() {
-
+        List<BebidaComum> bebidas = comumServico.getBebidasPorAcucar(20);
+        assertEquals(2, bebidas.size());
+        
     }
 
+    /**
+     * Refere-se às bebidas com teor alcoolico menor que o parametro
+     */
     @Test
     public void getBebidasPorAlcool() {
+        List<BebidaAlcoolica> bebidas = alcoolicaServico.getBebidasPorTeor(30.0);
+        assertEquals(3, bebidas.size());
     }
 
 }
