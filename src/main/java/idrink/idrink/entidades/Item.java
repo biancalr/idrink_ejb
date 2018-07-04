@@ -43,7 +43,7 @@ import javax.validation.constraints.NotNull;
 public class Item implements Serializable{
     
     public static final String ITEM_POR_ID = "ItemPorId";    
-    public static final String BEBIDA_DO_ITEM = "BebidaDoItem";    
+    public static final String BEBIDA_DO_ITEM = "BebidaDoItem"; 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -66,6 +66,10 @@ public class Item implements Serializable{
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
     public Integer getQuantidade() {
         return quantidade;
     }
@@ -121,37 +125,7 @@ public class Item implements Serializable{
         return this.bebida.getPreco() * this.quantidade;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
 
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof Item)) {
-            return false;
-        }
-        Item other = (Item) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("ITEM SELECIONADO: \n");
-        sb.append(" ID:");
-        sb.append(this.id);
-        sb.append("\n Bebida:");
-        sb.append(this.bebida.toString());
-        sb.append("\n Quantidade:");
-        sb.append(this.quantidade);
-        sb.append("\n");
-        return sb.toString();
-    }
     
     
 }
