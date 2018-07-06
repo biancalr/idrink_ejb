@@ -114,7 +114,7 @@ public class ItemServico<T extends Item> {
     }
 
     @TransactionAttribute(SUPPORTS)
-    protected List<T> consultarEntidades(Object[] parametros, String nomeQuery) {
+    public List<T> consultarEntidades(Object[] parametros, String nomeQuery) {
         TypedQuery<T> query = entityManager.createNamedQuery(nomeQuery, classe);
 
         int i = 1;

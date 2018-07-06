@@ -5,7 +5,6 @@
  */
 package idrink.ejb;
 
-import idrink.idrink.entidades.Bebida;
 import idrink.idrink.entidades.BebidaAlcoolica;
 import idrink.idrink.entidades.BebidaComum;
 import idrink.idrink.servicos.BebidaAlcoolicaServico;
@@ -63,7 +62,7 @@ public class BebidaTest extends Teste {
         ba.setTeor(12.5);
 
         alcoolicaServico.persistir(ba);
-        ba = alcoolicaServico.consultarPorId(new Long(11));
+        ba = alcoolicaServico.consultarPorId(new Long(10));
         assertNotNull(ba.getId());
 
     }
@@ -76,8 +75,6 @@ public class BebidaTest extends Teste {
         bc.setPreco(5.5);
         bc.setAcucar(12);
 
-        //O valor long é 11 apenas para a execução do teste isolado
-        //Caso não, o valor é 12
         comumServico.persistir(bc);
         bc = comumServico.consultarPorId(new Long(11));
         assertNotNull(bc.getId());
@@ -157,7 +154,7 @@ public class BebidaTest extends Teste {
     @Test
     public void getBebidasPorAcucar() {
         List<BebidaComum> bebidas = comumServico.getBebidasPorAcucar(20);
-        assertEquals(2, bebidas.size());
+        assertEquals(3, bebidas.size());
         
     }
 
@@ -167,7 +164,7 @@ public class BebidaTest extends Teste {
     @Test
     public void getBebidasPorAlcool() {
         List<BebidaAlcoolica> bebidas = alcoolicaServico.getBebidasPorTeor(30.0);
-        assertEquals(3, bebidas.size());
+        assertEquals(4, bebidas.size());
     }
 
 }
