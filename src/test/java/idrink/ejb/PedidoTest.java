@@ -104,6 +104,9 @@ public class PedidoTest extends Teste {
     
     @Test
     public void existeItem(){
+        Item item = itemServico.criar();
+        item.setId(new Long(3));
+        assertTrue(itemServico.existe(item));
         
     }
     
